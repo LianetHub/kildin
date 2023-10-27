@@ -44,8 +44,7 @@
         </li>
     </ul>
 </nav>
-    <div class="main" data-barba="container" data-barba-namespace="home">
-      <header class="header header_overlay">
+    <header class="header">
     <div class="header__container">
         <a href="/" class="header__logo nav-link">
             <svg width="230" height="90" viewBox="0 0 230 90" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,10 +63,10 @@
                 <path d="M199.863 81.5483V48.821H208.748V61.6051H220.51V48.821H229.395V81.5483H220.51V68.7642H208.748V81.5483H199.863Z" />
             </svg>
         </a>
-        <a href="" class="header__eye-low">
+        <button type="button" id="specialButton" class="header__eye-low">
             <img src="img/icons/eye.svg" alt="icon">
             <span>Версия для слабовидящих</span>
-        </a>
+        </button>
         <a href="" class="header__lang">
             <img src="img/icons/english.png" alt="icon">
             <span>English</span>
@@ -77,6 +76,7 @@
         </button>
     </div>
 </header>
+    <div class="main" data-barba="container" data-barba-namespace="home">
       <main class="page">
         <div class="video">
           <video muted autoplay loop playsinline preload="auto" poster="img/poster.jpg">
@@ -123,6 +123,8 @@
 <script src="js/libs/leaflet.js"></script>
 <script src="js/libs/swiper-bundle.min.js"></script>
 <script src="js/libs/fancybox.min.js"></script>
+<script src="https://lidrekon.ru/slep/js/jquery.js"></script>
+<script src="https://lidrekon.ru/slep/js/uhpv-full.min.js"></script>
 <script src="js/app.min.js"></script>
 </body>
 

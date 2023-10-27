@@ -44,8 +44,7 @@
         </li>
     </ul>
 </nav>
-    <div class="main" data-barba="container" data-barba-namespace="maps">
-      <header class="header ">
+    <header class="header">
     <div class="header__container">
         <a href="/" class="header__logo nav-link">
             <svg width="230" height="90" viewBox="0 0 230 90" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,10 +63,10 @@
                 <path d="M199.863 81.5483V48.821H208.748V61.6051H220.51V48.821H229.395V81.5483H220.51V68.7642H208.748V81.5483H199.863Z" />
             </svg>
         </a>
-        <a href="" class="header__eye-low">
+        <button type="button" id="specialButton" class="header__eye-low">
             <img src="img/icons/eye.svg" alt="icon">
             <span>Версия для слабовидящих</span>
-        </a>
+        </button>
         <a href="" class="header__lang">
             <img src="img/icons/english.png" alt="icon">
             <span>English</span>
@@ -77,6 +76,7 @@
         </button>
     </div>
 </header>
+    <div class="main" data-barba="container" data-barba-namespace="maps">
       <main class="page">
         <section class="maps">
           <div class="maps__container">
@@ -101,67 +101,30 @@
                   <input type="text" name="search" class="input" placeholder="Поиск по названию">
                 </div>
                 <div class="maps__dropdown dropdown">
-                  <button class="dropdown__button" type="button">Категория</button>
-                  <ul class="dropdown__list">
-                    <li class="dropdown__list-item">
-                      <label class="dropdown__checkbox">
-                        <input type="checkbox" name="antro" class="dropdown__checkbox-input hidden" hidden>
-                        <span class="dropdown__checkbox-text">Антропогенные объекты</span>
-                      </label>
-                    </li>
-                    <li class="dropdown__list-item">
-                      <label class="dropdown__checkbox">
-                        <input type="checkbox" name="bio" class="dropdown__checkbox-input hidden" hidden>
-                        <span class="dropdown__checkbox-text">Биоразнообразие</span>
-                      </label>
-                    </li>
-                    <li class="dropdown__list-item">
-                      <label class="dropdown__checkbox">
-                        <input type="checkbox" name="more" class="dropdown__checkbox-input hidden" hidden>
-                        <span class="dropdown__checkbox-text">Другое</span>
-                      </label>
-                    </li>
-                  </ul>
+                  <select name="category" id="id_category" data-placeholder="Категория" multiple class="dropdown__list">
+                    <option value="1">Биоразнообразие</option>
+                    <option value="2">Мусор</option>
+                  </select>
                 </div>
                 <div class="maps__dropdown dropdown">
-                  <button class="dropdown__button" type="button">Подкатегория</button>
-                  <ul class="dropdown__list">
-                    <li class="dropdown__list-item" data-value="type-1">Подкатегория 1</li>
-                    <li class="dropdown__list-item" data-value="type-2">Подкатегория 2</li>
-                  </ul>
-                  <input type="text" class="dropdown__input hidden" hidden name="subcategory" value="" />
+                  <select name="subcategory" id="id_subcategory" data-placeholder="Подкатегория" multiple class="dropdown__list">
+                    <option value="1">Биомусор</option>
+                    <option value="2">Животное</option>
+                    <option value="3">Растение</option>
+                    <option value="4">Техногенный мусор</option>
+                  </select>
                 </div>
                 <div class="maps__dropdown dropdown">
-                  <button class="dropdown__button" type="button">Объект</button>
-                  <ul class="dropdown__list">
-                    <li class="dropdown__list-item">
-                      <label class="dropdown__checkbox">
-                        <input type="checkbox" name="obj1" class="dropdown__checkbox-input hidden" hidden>
-                        <span class="dropdown__checkbox-text">Объект 1</span>
-                      </label>
-                    </li>
-                    <li class="dropdown__list-item">
-                      <label class="dropdown__checkbox">
-                        <input type="checkbox" name="obj2" class="dropdown__checkbox-input hidden" hidden>
-                        <span class="dropdown__checkbox-text">Объект 2</span>
-                      </label>
-                    </li>
-                    <li class="dropdown__list-item">
-                      <label class="dropdown__checkbox">
-                        <input type="checkbox" name="obj3" class="dropdown__checkbox-input hidden" hidden>
-                        <span class="dropdown__checkbox-text">Объект 3</span>
-                      </label>
-                    </li>
-                  </ul>
+                  <select name="status" id="id_status" data-placeholder="Статус" multiple class="dropdown__list">
+                    <option value="1">Новое</option>
+                    <option value="2">Подтверждено</option>
+                    <option value="3">Требует решения</option>
+                    <option value="4">В работе</option>
+                    <option value="5">На проверке</option>
+                    <option value="6">Решено</option>
+                  </select>
                 </div>
-                <div class="maps__dropdown dropdown">
-                  <button class="dropdown__button" type="button">Статус</button>
-                  <ul class="dropdown__list">
-                    <li class="dropdown__list-item">Актив</li>
-                    <li class="dropdown__list-item">Пассив</li>
-                  </ul>
-                  <input type="text" class="dropdown__input hidden" hidden name="status" value="" />
-                </div>
+                <button type="submit" class="maps__btn btn btn-primary">Применить</button>
               </form>
               <div class="maps__content">
                 <div id="map"></div>
@@ -209,6 +172,8 @@
 <script src="js/libs/leaflet.js"></script>
 <script src="js/libs/swiper-bundle.min.js"></script>
 <script src="js/libs/fancybox.min.js"></script>
+<script src="https://lidrekon.ru/slep/js/jquery.js"></script>
+<script src="https://lidrekon.ru/slep/js/uhpv-full.min.js"></script>
 <script src="js/app.min.js"></script>
 </body>
 

@@ -307,17 +307,20 @@ body.lock {
   color: #3f3f3f;
 }
 
-.dropdown {
+.selectMultiple {
+  width: 100%;
   position: relative;
   z-index: 4;
 }
 
-.dropdown__button {
-  -webkit-transition: all 0.3s ease 0s;
-  -o-transition: all 0.3s ease 0s;
-  transition: all 0.3s ease 0s;
+.selectMultiple select {
+  display: none;
+}
+
+.selectMultiple > div {
   position: relative;
-  cursor: pointer;
+  z-index: 2;
+  min-height: 50px;
   background: #f6f5f8;
   border-radius: 10px;
   border: 1px solid rgba(54, 63, 94, 0.19);
@@ -327,126 +330,438 @@ body.lock {
   padding: 1em 2.5em 1em 1.5em;
   text-align: left;
   color: rgba(54, 63, 94, 0.7);
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  overflow: hidden;
-  white-space: nowrap;
-  -o-text-overflow: ellipsis;
-     text-overflow: ellipsis;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  z-index: 1;
+  -webkit-transition: -webkit-box-shadow 0.3s ease;
+  transition: -webkit-box-shadow 0.3s ease;
+  -o-transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, -webkit-box-shadow 0.3s ease;
 }
 
-.dropdown__button.selected {
-  color: #232c32;
+.selectMultiple > div:hover {
+  -webkit-box-shadow: 0 4px 24px -1px rgba(22, 42, 90, 0.16);
+          box-shadow: 0 4px 24px -1px rgba(22, 42, 90, 0.16);
 }
 
-.dropdown__button::before {
+.selectMultiple > div .arrow {
+  right: 1px;
+  top: 0;
+  bottom: 0;
+  cursor: pointer;
+  width: 28px;
+  position: absolute;
+}
+
+.selectMultiple > div .arrow:before,
+.selectMultiple > div .arrow:after {
   content: "";
   position: absolute;
-  top: 22px;
-  right: 18px;
-  -webkit-transition: -webkit-transform 0.3s ease 0s;
-  transition: -webkit-transform 0.3s ease 0s;
-  -o-transition: transform 0.3s ease 0s;
-  transition: transform 0.3s ease 0s;
-  transition: transform 0.3s ease 0s, -webkit-transform 0.3s ease 0s;
-  width: 10px;
-  height: 5px;
-  background: url("../img/icons/down.svg") center/contain no-repeat;
+  display: block;
+  width: 2px;
+  height: 8px;
+  border-bottom: 8px solid #99a3ba;
+  top: 43%;
+  -webkit-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-.dropdown__button:not(.active):hover {
-  border-color: #138193;
+.selectMultiple > div .arrow:before {
+  right: 12px;
+  -webkit-transform: rotate(-130deg);
+      -ms-transform: rotate(-130deg);
+          transform: rotate(-130deg);
 }
 
-.dropdown__button.active {
-  background: #fff;
+.selectMultiple > div .arrow:after {
+  left: 9px;
+  -webkit-transform: rotate(130deg);
+      -ms-transform: rotate(130deg);
+          transform: rotate(130deg);
 }
 
-.dropdown__button.active::before {
-  -webkit-transform: rotate(-180deg);
-      -ms-transform: rotate(-180deg);
-          transform: rotate(-180deg);
-}
-
-.dropdown__list {
-  position: absolute;
-  left: 0;
-  top: calc(100% + 5px);
-  width: 100%;
-  z-index: 4;
-  background: #ffffff;
-  border: 1px solid rgba(54, 63, 94, 0.19);
-  -webkit-transition: 200ms ease;
-  -o-transition: 200ms ease;
-  transition: 200ms ease;
-  opacity: 0;
-  visibility: hidden;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.dropdown__list.visible {
-  opacity: 1;
-  visibility: visible;
-}
-
-.dropdown__list-item {
-  padding: 0.8em 1em;
-}
-
-.dropdown__list-item[data-value] {
-  cursor: pointer;
-  -webkit-transition: background-color 0.15s ease 0s;
-  -o-transition: background-color 0.15s ease 0s;
-  transition: background-color 0.15s ease 0s;
-}
-
-.dropdown__list-item[data-value].active {
-  background: #138193;
-  color: #fff;
-}
-
-.dropdown__checkbox-input:checked + .dropdown__checkbox-text::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='10' viewBox='0 0 12 10' fill='none'%3E%3Cpath d='M4 9.4L0 5.4L1.4 4L4 6.6L10.6 0L12 1.4L4 9.4Z' fill='%23363F5E'/%3E%3C/svg%3E");
-}
-
-.dropdown__checkbox-text {
+.selectMultiple > div span {
+  color: #99a3ba;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-column-gap: 10px;
-     -moz-column-gap: 10px;
-          column-gap: 10px;
-  color: #363f5e;
-  font-size: 15px;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 1em 2.5em 1em 1.5em;
   cursor: pointer;
+  -webkit-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-.dropdown__checkbox-text::before {
+.selectMultiple > div span.hide {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform: translate(-4px, 0);
+      -ms-transform: translate(-4px, 0);
+          transform: translate(-4px, 0);
+}
+
+.selectMultiple > div a {
+  position: relative;
+  padding: 0 24px 6px 8px;
+  line-height: 28px;
+  color: #1e2330;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 6px 0 0;
+}
+
+.selectMultiple > div a em {
+  font-style: normal;
+  display: block;
+  white-space: nowrap;
+}
+
+.selectMultiple > div a:before {
   content: "";
+  left: 0;
+  top: 0;
+  bottom: 6px;
+  width: 100%;
+  position: absolute;
+  display: block;
+  background: rgba(228, 236, 250, 0.7);
+  z-index: -1;
+  border-radius: 4px;
+}
+
+.selectMultiple > div a i {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
   width: 24px;
-  height: 24px;
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
-  border: 1px solid #363f5e;
-  border-radius: 5px;
-  background-size: 12px 10px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: #fff;
+  height: 28px;
+  display: block;
+}
+
+.selectMultiple > div a i:before,
+.selectMultiple > div a i:after {
+  content: "";
+  display: block;
+  width: 2px;
+  height: 10px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: #138193;
+  border-radius: 1px;
+}
+
+.selectMultiple > div a i:before {
+  -webkit-transform: translate(-50%, -50%) rotate(45deg);
+      -ms-transform: translate(-50%, -50%) rotate(45deg);
+          transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.selectMultiple > div a i:after {
+  -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+      -ms-transform: translate(-50%, -50%) rotate(-45deg);
+          transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.selectMultiple > div a.notShown {
+  opacity: 0;
+  -webkit-transition: opacity 0.3s ease;
+  -o-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+}
+
+.selectMultiple > div a.notShown:before {
+  width: 28px;
+  -webkit-transition: width 0.45s cubic-bezier(0.87, -0.41, 0.19, 1.44) 0.2s;
+  -o-transition: width 0.45s cubic-bezier(0.87, -0.41, 0.19, 1.44) 0.2s;
+  transition: width 0.45s cubic-bezier(0.87, -0.41, 0.19, 1.44) 0.2s;
+}
+
+.selectMultiple > div a.notShown i {
+  opacity: 0;
+  -webkit-transition: all 0.3s ease 0.3s;
+  -o-transition: all 0.3s ease 0.3s;
+  transition: all 0.3s ease 0.3s;
+}
+
+.selectMultiple > div a.notShown em {
+  opacity: 0;
+  -webkit-transform: translate(-6px, 0);
+      -ms-transform: translate(-6px, 0);
+          transform: translate(-6px, 0);
+  -webkit-transition: all 0.4s ease 0.3s;
+  -o-transition: all 0.4s ease 0.3s;
+  transition: all 0.4s ease 0.3s;
+}
+
+.selectMultiple > div a.notShown.shown {
+  opacity: 1;
+}
+
+.selectMultiple > div a.notShown.shown:before {
+  width: 100%;
+}
+
+.selectMultiple > div a.notShown.shown i {
+  opacity: 1;
+}
+
+.selectMultiple > div a.notShown.shown em {
+  opacity: 1;
+  -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+          transform: translate(0, 0);
+}
+
+.selectMultiple > div a.remove {
+  pointer-events: none;
+}
+
+.selectMultiple > div a.remove:before {
+  width: 28px;
+  -webkit-transition: width 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44) 0s;
+  -o-transition: width 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44) 0s;
+  transition: width 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44) 0s;
+}
+
+.selectMultiple > div a.remove i {
+  opacity: 0;
+  -webkit-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+}
+
+.selectMultiple > div a.remove em {
+  opacity: 0;
+  -webkit-transform: translate(-12px, 0);
+      -ms-transform: translate(-12px, 0);
+          transform: translate(-12px, 0);
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+
+.selectMultiple > div a.remove.disappear {
+  opacity: 0;
+  -webkit-transition: opacity 0.5s ease 0s;
+  -o-transition: opacity 0.5s ease 0s;
+  transition: opacity 0.5s ease 0s;
+}
+
+.selectMultiple > ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 16px;
+  z-index: 1;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  visibility: hidden;
+  opacity: 0;
+  border-radius: 8px;
+  -webkit-transform: translate(0, 20px) scale(0.8);
+      -ms-transform: translate(0, 20px) scale(0.8);
+          transform: translate(0, 20px) scale(0.8);
+  -webkit-transform-origin: 0 0;
+      -ms-transform-origin: 0 0;
+          transform-origin: 0 0;
+  -webkit-box-shadow: 0 12px 20px rgba(22, 42, 90, 0.08);
+          box-shadow: 0 12px 20px rgba(22, 42, 90, 0.08);
+  -webkit-transition: all 0.4s ease, -webkit-transform 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44), -webkit-filter 0.3s ease 0.2s;
+  transition: all 0.4s ease, -webkit-transform 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44), -webkit-filter 0.3s ease 0.2s;
+  -o-transition: all 0.4s ease, transform 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44), filter 0.3s ease 0.2s;
+  transition: all 0.4s ease, transform 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44), filter 0.3s ease 0.2s;
+  transition: all 0.4s ease, transform 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44), filter 0.3s ease 0.2s, -webkit-transform 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44), -webkit-filter 0.3s ease 0.2s;
+}
+
+.selectMultiple > ul li {
+  color: #1e2330;
+  background: #fff;
+  padding: 12px 16px;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  -webkit-transition: background 0.3s ease, color 0.3s ease, opacity 0.5s ease 0.3s, border-radius 0.3s ease, -webkit-transform 0.3s ease 0.3s;
+  transition: background 0.3s ease, color 0.3s ease, opacity 0.5s ease 0.3s, border-radius 0.3s ease, -webkit-transform 0.3s ease 0.3s;
+  -o-transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease 0.3s, opacity 0.5s ease 0.3s, border-radius 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease 0.3s, opacity 0.5s ease 0.3s, border-radius 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease 0.3s, opacity 0.5s ease 0.3s, border-radius 0.3s ease, -webkit-transform 0.3s ease 0.3s;
+}
+
+.selectMultiple > ul li:first-child {
+  border-radius: 8px 8px 0 0;
+}
+
+.selectMultiple > ul li:first-child:last-child {
+  border-radius: 8px;
+}
+
+.selectMultiple > ul li:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+.selectMultiple > ul li:last-child:first-child {
+  border-radius: 8px;
+}
+
+.selectMultiple > ul li:hover {
+  background: #138193;
+  color: #fff;
+}
+
+.selectMultiple > ul li:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  border-radius: 100%;
+  -webkit-transform: scale(1, 1) translate(-50%, -50%);
+      -ms-transform: scale(1, 1) translate(-50%, -50%);
+          transform: scale(1, 1) translate(-50%, -50%);
+  -webkit-transform-origin: 50% 50%;
+      -ms-transform-origin: 50% 50%;
+          transform-origin: 50% 50%;
+}
+
+.selectMultiple > ul li.beforeRemove {
+  border-radius: 0 0 8px 8px;
+}
+
+.selectMultiple > ul li.beforeRemove:first-child {
+  border-radius: 8px;
+}
+
+.selectMultiple > ul li.afterRemove {
+  border-radius: 8px 8px 0 0;
+}
+
+.selectMultiple > ul li.afterRemove:last-child {
+  border-radius: 8px;
+}
+
+.selectMultiple > ul li.remove {
+  -webkit-transform: scale(0);
+      -ms-transform: scale(0);
+          transform: scale(0);
+  opacity: 0;
+}
+
+.selectMultiple > ul li.remove:after {
+  -webkit-animation: ripple 0.4s ease-out;
+          animation: ripple 0.4s ease-out;
+}
+
+.selectMultiple > ul li.show {
+  -webkit-transform: scale(0);
+      -ms-transform: scale(0);
+          transform: scale(0);
+  opacity: 0;
+  -webkit-animation: scale-up 0.35s ease forwards;
+          animation: scale-up 0.35s ease forwards;
+}
+
+.selectMultiple.open > div .arrow:before {
+  -webkit-transform: rotate(-50deg);
+      -ms-transform: rotate(-50deg);
+          transform: rotate(-50deg);
+}
+
+.selectMultiple.open > div .arrow:after {
+  -webkit-transform: rotate(50deg);
+      -ms-transform: rotate(50deg);
+          transform: rotate(50deg);
+}
+
+.selectMultiple.open > ul {
+  -webkit-transform: translate(0, 12px) scale(1);
+      -ms-transform: translate(0, 12px) scale(1);
+          transform: translate(0, 12px) scale(1);
+  opacity: 1;
+  visibility: visible;
+  -webkit-filter: drop-shadow(0 16px 24px rgba(22, 42, 90, 0.16));
+          filter: drop-shadow(0 16px 24px rgba(22, 42, 90, 0.16));
+}
+
+@-webkit-keyframes ripple {
+  0% {
+    -webkit-transform: scale(0, 0);
+            transform: scale(0, 0);
+    opacity: 1;
+  }
+
+  25% {
+    -webkit-transform: scale(30, 30);
+            transform: scale(30, 30);
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: scale(50, 50);
+            transform: scale(50, 50);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    -webkit-transform: scale(0, 0);
+            transform: scale(0, 0);
+    opacity: 1;
+  }
+
+  25% {
+    -webkit-transform: scale(30, 30);
+            transform: scale(30, 30);
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: scale(50, 50);
+            transform: scale(50, 50);
+  }
+}
+
+@-webkit-keyframes scale-up {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 0;
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes scale-up {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 0;
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1;
+  }
 }
 
 h1,
@@ -850,6 +1165,9 @@ h2 {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-column-gap: 0.5rem;
      -moz-column-gap: 0.5rem;
           column-gap: 0.5rem;
@@ -1050,6 +1368,7 @@ h2 {
 
 .page {
   position: relative;
+  z-index: 1;
   -webkit-box-flex: 1;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
@@ -1061,10 +1380,10 @@ h2 {
 
 .video video {
   position: absolute;
-  top: 0;
+  top: -174px;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% + 174px);
   -o-object-fit: cover;
      object-fit: cover;
   -o-object-position: center;
@@ -1278,6 +1597,9 @@ h2 {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   gap: 10px;
@@ -1326,6 +1648,10 @@ h2 {
   width: 100%;
   height: 100%;
   z-index: 1;
+}
+
+.maps__btn {
+  min-height: 50px;
 }
 
 @media (min-width: 575.98px) {
@@ -1415,7 +1741,7 @@ h2 {
   }
 
   .navigation.pending {
-    z-index: 3;
+    z-index: 4;
   }
 
   .navigation__list {
@@ -1469,16 +1795,10 @@ h2 {
   }
 
   .header {
-    padding: 1em 0em;
+    background: transparent;
+    z-index: 3;
     border-bottom: 0;
-    z-index: 2;
-  }
-
-  .header.header_overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+    padding: 1em 0em;
   }
 
   .header__container {
@@ -1516,7 +1836,7 @@ h2 {
   .video::before {
     content: "";
     position: absolute;
-    top: 0;
+    top: -174px;
     left: 0;
     width: 100%;
     height: 100%;
@@ -1779,11 +2099,6 @@ h2 {
 
   .breadcrumbs__link:hover {
     color: #00656a;
-  }
-
-  .dropdown__list-item[data-value]:hover {
-    background: #138193;
-    color: #fff;
   }
 
   ::-webkit-scrollbar-thumb:hover {
