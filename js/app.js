@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    const initProps = {
+
+    barba.init({
         preventRunning: true,
         prefetchIgnore: true,
         // debug: true,
@@ -13,6 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
             name: 'base',
 
             async leave(data) {
+                if (window.innerWidth < 767) {
+                    barba.go(data.trigger.href)
+                }
                 await pageAnimIn(data);
                 data.current.container.remove();
             },
@@ -26,23 +30,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 var vids = document.querySelectorAll("video");
                 vids.forEach(vid => { var playPromise = vid.play(); if (playPromise !== undefined) { playPromise.then(_ => { }).catch(error => { }); }; });
 
-                initUI()
+                initUI();
 
             }
         }]
-    }
+    });
 
-    initBarba();
     calcWrapperOffsets();
     initUI();
 
-    function initBarba() {
-        if (window.innerWidth < 768) {
-            barba.destroy();
-        } else {
-            barba.init(initProps);
-        }
-    }
+
 
 
     // Barba Animate functions
@@ -171,9 +168,6 @@ document.addEventListener("DOMContentLoaded", () => {
             dropdownItems.forEach(function (listItem) {
                 listItem.addEventListener("click", function (e) {
 
-
-
-
                     if (e.target.querySelector('.dropdown__checkbox') || e.target.closest(".dropdown__checkbox")) {
                         e.stopPropagation();
                         return;
@@ -188,6 +182,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     dropdownBtn.classList.remove("active");
                     dropdownInput.value = this.dataset.value;
                     dropdownList.classList.remove("visible");
+
+                    let event = new Event('input');
+                    document.dispatchEvent(event);
                 });
             });
 
@@ -206,9 +203,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Event handlers
 
+
     window.addEventListener('resize', () => {
         calcWrapperOffsets();
-        initBarba();
+
+
     });
 
     document.addEventListener('click', (e) => {
@@ -217,11 +216,76 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (target.closest('.icon-menu')) {
             document.querySelector('.navigation').classList.toggle('open');
-            devFuctions.toggleLocking();
+            toggleLocking();
             document.querySelector('.icon-menu').classList.toggle('active');
         }
 
     });
+
+    document.addEventListener('input', (e) => {
+
+        const target = e.target;
+
+        if (target === document || target.closest('.maps__filters')) {
+            sendFilterResponce();
+        }
+
+    });
+
+    async function sendFilterResponce() {
+
+        if (!document.querySelector('.maps__filters')) return;
+
+        const URL = "https://monitoring.dev.ecofactor.pro/api/v1/requests/filter/";
+        let formData = new FormData(document.querySelector('.maps__filters'));
+
+
+        try {
+            let response = await fetch(URL, {
+                method: "POST",
+                body: formData
+            });
+
+            if (response.ok) {
+                // ВАШ КОД ОБНОВЛЕНИЯ КАРТЫ
+                console.log(response);
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+
+    // lock body 
+
+    function toggleLocking(lockClass) {
+
+        const body = document.body;
+        let className = lockClass ? lockClass : "lock";
+        let pagePosition;
+
+        if (body.classList.contains(className)) {
+            pagePosition = parseInt(document.body.dataset.position, 10);
+            body.dataset.position = pagePosition;
+            body.style.top = -pagePosition + 'px';
+        } else {
+            pagePosition = window.scrollY;
+            body.style.top = 'auto';
+            window.scroll({ top: pagePosition, left: 0 });
+            document.body.removeAttribute('data-position');
+        }
+
+        let lockPaddingValue = body.classList.contains(className)
+            ? "0px"
+            : window.innerWidth -
+            document.querySelector(".wrapper").offsetWidth +
+            "px";
+
+        body.style.paddingRight = lockPaddingValue;
+        body.classList.toggle(className);
+
+    }
 
 
 
