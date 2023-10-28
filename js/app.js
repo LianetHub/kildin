@@ -108,20 +108,21 @@ document.addEventListener("DOMContentLoaded", () => {
     // App functions
 
     function initUI() {
-        initMap();
+        // initMap();
+        ymaps.ready(initMap);
         initSliders();
         initFancyBox();
         initDropdows();
     }
 
-    function initMap() {
-        if (document.querySelector('#map')) {
-            let map = L.map('map', {
-                center: [51.505, -0.09],
-                zoom: 13
-            });
-        }
-    }
+    // function initMap() {
+    //     if (document.querySelector('#map')) {
+    //         let map = L.map('map', {
+    //             center: [51.505, -0.09],
+    //             zoom: 13
+    //         });
+    //     }
+    // }
 
     function initFancyBox() {
         if (typeof Fancybox !== "undefined" && Fancybox !== null) {
@@ -392,6 +393,43 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
     });
+
+
+
+
+    function initMap() {
+
+        var myMap = new ymaps.Map("map", {
+            center: [69.34898894941716, 34.18545550000002],
+            zoom: 12,
+            controls: []
+        });
+
+        myMap.behaviors.disable('scrollZoom');
+        var mark1 = new ymaps.Placemark([69.37817423278209, 34.08108538281251], {}, {
+            iconLayout: 'default#image',
+            iconImageHref: '/img/icons/location.svg',
+            modalId: "#modal"
+        });
+        var mark2 = new ymaps.Placemark([69.32426958119503, 34.20332282128056], {}, {
+            iconLayout: 'default#image',
+            iconImageHref: '/img/icons/location.svg',
+            modalId: "#modal-2"
+        });
+
+        myMap.geoObjects.add(mark1);
+        myMap.geoObjects.add(mark2);
+
+        myMap.geoObjects.events.add('click', function (e) {
+            // Объект на котором произошло событие
+            var target = e.get('target');
+            var modalId = target.options._options.modalId;
+
+            Fancybox.show([{
+                src: modalId
+            }])
+        });
+    }
 
     // document.addEventListener('input', (e) => {
 
