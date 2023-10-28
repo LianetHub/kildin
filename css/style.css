@@ -2049,6 +2049,10 @@ h2 {
             flex: 1 1 calc(20% - 10px);
     max-width: calc(25% - 5px);
   }
+
+  .maps__content {
+    padding-bottom: max(640px, 45%);
+  }
 }
 
 @media (min-width: 1599.98px) {
