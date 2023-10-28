@@ -399,6 +399,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function initMap() {
 
+        if (!document.querySelector("#map")) return;
+
         var myMap = new ymaps.Map("map", {
             center: [69.34898894941716, 34.18545550000002],
             zoom: 12,
@@ -408,12 +410,12 @@ document.addEventListener("DOMContentLoaded", () => {
         myMap.behaviors.disable('scrollZoom');
         var mark1 = new ymaps.Placemark([69.37817423278209, 34.08108538281251], {}, {
             iconLayout: 'default#image',
-            iconImageHref: '../img/icons/location.svg',
+            iconImageHref: '/kildin/img/icons/location.svg',
             modalId: "#modal"
         });
         var mark2 = new ymaps.Placemark([69.32426958119503, 34.20332282128056], {}, {
             iconLayout: 'default#image',
-            iconImageHref: '../img/icons/location.svg',
+            iconImageHref: '/kildin/img/icons/location.svg',
             modalId: "#modal-2"
         });
 
