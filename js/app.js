@@ -408,29 +408,40 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         myMap.behaviors.disable('scrollZoom');
-        var mark1 = new ymaps.Placemark([69.37817423278209, 34.08108538281251], {}, {
-            iconLayout: 'default#image',
-            iconImageHref: '/kildin/img/icons/location.svg',
-            modalId: "#modal"
-        });
-        var mark2 = new ymaps.Placemark([69.32426958119503, 34.20332282128056], {}, {
-            iconLayout: 'default#image',
-            iconImageHref: '/kildin/img/icons/location.svg',
-            modalId: "#modal-2"
-        });
 
-        myMap.geoObjects.add(mark1);
-        myMap.geoObjects.add(mark2);
+        if (document.querySelectorAll('.maps__placemark')) {
+            document.querySelectorAll('.maps__placemark').forEach(placeMark => {
 
-        myMap.geoObjects.events.add('click', function (e) {
-            // Объект на котором произошло событие
-            var target = e.get('target');
-            var modalId = target.options._options.modalId;
+                let coords = placeMark.dataset.coords.split(',');
+                let modalId = placeMark.dataset.modal;
 
-            Fancybox.show([{
-                src: modalId
-            }])
-        });
+
+                var mark = new ymaps.Placemark(coords, {}, {
+                    iconLayout: 'default#image',
+                    iconImageHref: '/kildin/img/icons/location.svg',
+                    modalId: modalId
+                });
+
+
+                myMap.geoObjects.add(mark);
+
+            });
+
+            myMap.geoObjects.events.add('click', function (e) {
+                // Объект на котором произошло событие
+                var target = e.get('target');
+                var modalId = target.options._options.modalId;
+
+                Fancybox.show([{
+                    src: modalId
+                }])
+            });
+
+        }
+
+
+
+
     }
 
     // document.addEventListener('input', (e) => {
