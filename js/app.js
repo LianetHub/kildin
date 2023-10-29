@@ -2,8 +2,8 @@
 
 
 
-// const RESPONSE_URL = "https://monitoring.dev.ecofactor.pro/api/v1/requests/filter/";
-const RESPONSE_URL = "./json/test.json";
+const RESPONSE_URL = "https://monitoring.dev.ecofactor.pro/api/v1/requests/filter/";
+// const RESPONSE_URL = "./json/test.json";
 const ICON_IMAGE_HREF = "/img/icons/location.svg";
 
 
@@ -526,11 +526,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!document.querySelector("#map")) return;
 
+        document.querySelector("#map").innerHTML = "";
+
         var myMap = new ymaps.Map("map", {
             center: [69.34898894941716, 34.18545550000002],
             zoom: 12,
             controls: []
         });
+
 
 
         if (document.querySelectorAll('.maps__placemark')) {
@@ -599,17 +602,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         try {
-            // let response = await fetch(RESPONSE_URL, {
-            //     method: "POST",
-            //     body: json
-            // });
+            let response = await fetch(RESPONSE_URL, {
+                method: "POST",
+                body: json
+            });
 
-            let response = await fetch(RESPONSE_URL);
+            // let response = await fetch(RESPONSE_URL);
 
             if (response.ok) {
 
                 let result = await response.json();
-                // console.log(result);
 
                 renderContent(result);
                 ymaps.ready(initMap);
