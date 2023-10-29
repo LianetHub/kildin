@@ -1,9 +1,10 @@
 "use strict";
 
-import { constants } from "./config.js";
 
-const { URL, iconImageHref } = constants;
 
+// const RESPONSE_URL = "https://monitoring.dev.ecofactor.pro/api/v1/requests/filter/";
+const RESPONSE_URL = "./json/test.json";
+const ICON_IMAGE_HREF = "/img/icons/location.svg";
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -541,7 +542,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 var mark = new ymaps.Placemark(coords, {}, {
                     iconLayout: 'default#image',
-                    iconImageHref: iconImageHref,
+                    iconImageHref: ICON_IMAGE_HREF,
                     modalId: modalId
                 });
 
@@ -570,7 +571,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function sendFilterResponce() {
 
-        if (!document.querySelector('.maps__filters')) return;
+        if (!document.querySelector('.maps__filters')) {
+            ymaps.ready(initMap);
+            return;
+        };
 
         let formData = new FormData(document.querySelector('.maps__filters'));
 
@@ -581,26 +585,31 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.forEach(function (value, key) {
 
             if (objectJson.hasOwnProperty(key)) {
-                objectJson[key] = Array.from(objectJson[key]);
                 objectJson[key].push(value);
             } else {
                 objectJson[key] = value;
+                if (key !== 'object') {
+                    objectJson[key] = Array.from(objectJson[key]);
+                }
             }
-
         });
+
         let json = JSON.stringify(objectJson);
+        console.log(json);
+
 
         try {
-            let response = await fetch(URL, {
-                method: "POST",
-                body: json
-            });
+            // let response = await fetch(RESPONSE_URL, {
+            //     method: "POST",
+            //     body: json
+            // });
 
-            // let response = await fetch(URL);
+            let response = await fetch(RESPONSE_URL);
 
             if (response.ok) {
 
                 let result = await response.json();
+                // console.log(result);
 
                 renderContent(result);
                 ymaps.ready(initMap);
