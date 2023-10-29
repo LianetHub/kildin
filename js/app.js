@@ -108,28 +108,19 @@ document.addEventListener("DOMContentLoaded", () => {
     // App functions
 
     function initUI() {
-        // initMap();
+
         ymaps.ready(initMap);
         initSliders();
         initFancyBox();
         initDropdows();
+        initSpollers();
     }
-
-    // function initMap() {
-    //     if (document.querySelector('#map')) {
-    //         let map = L.map('map', {
-    //             center: [51.505, -0.09],
-    //             zoom: 13
-    //         });
-    //     }
-    // }
 
     function initFancyBox() {
         if (typeof Fancybox !== "undefined" && Fancybox !== null) {
-            Fancybox.bind("[data-fancybox]", {
-                dragToClose: false,
-                closeButton: false
-            });
+            Fancybox.bind("[data-fancybox]");
+            Fancybox.defaults.closeButton = false;
+            Fancybox.defaults.dragToClose = false;
         }
     }
 
@@ -142,6 +133,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 new Swiper(slider, {
                     speed: 800,
+                    slidesPerView: 1,
+                    navigation: {
+                        nextEl: next,
+                        prevEl: prev
+                    }
+                })
+            })
+        }
+
+        if (document.querySelectorAll('.article__slider')) {
+            document.querySelectorAll('.article__slider').forEach(articleSlider => {
+
+                let prev = articleSlider.querySelector('.article__slider-prev');
+                let next = articleSlider.querySelector('.article__slider-next');
+
+                new Swiper(articleSlider, {
                     slidesPerView: 1,
                     navigation: {
                         nextEl: next,
@@ -373,6 +380,147 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    function initSpollers() {
+
+        const spollersArray = document.querySelectorAll("[data-spollers]");
+        if (spollersArray.length > 0) {
+
+            const spollersRegular = Array.from(spollersArray).filter(function (
+                item,
+                index,
+                self
+            ) {
+                return !item.dataset.spollers.split(",")[0];
+            });
+
+            if (spollersRegular.length > 0) {
+                initSpollers(spollersRegular);
+            }
+
+            const spollersMedia = Array.from(spollersArray).filter(function (
+                item,
+                index,
+                self
+            ) {
+                return item.dataset.spollers.split(",")[0];
+            });
+
+            if (spollersMedia.length > 0) {
+                const breakpointsArray = [];
+                spollersMedia.forEach((item) => {
+                    const params = item.dataset.spollers;
+                    const breakpoint = {};
+                    const paramsArray = params.split(",");
+                    breakpoint.value = paramsArray[0];
+                    breakpoint.type = paramsArray[1] ? paramsArray[1].trim() : "max";
+                    breakpoint.item = item;
+                    breakpointsArray.push(breakpoint);
+                });
+
+
+                let mediaQueries = breakpointsArray.map(function (item) {
+                    return (
+                        "(" +
+                        item.type +
+                        "-width: " +
+                        item.value +
+                        "px)," +
+                        item.value +
+                        "," +
+                        item.type
+                    );
+                });
+                mediaQueries = mediaQueries.filter(function (item, index, self) {
+                    return self.indexOf(item) === index;
+                });
+
+
+                mediaQueries.forEach((breakpoint) => {
+                    const paramsArray = breakpoint.split(",");
+                    const mediaBreakpoint = paramsArray[1];
+                    const mediaType = paramsArray[2];
+                    const matchMedia = window.matchMedia(paramsArray[0]);
+
+                    const spollersArray = breakpointsArray.filter(function (item) {
+                        if (item.value === mediaBreakpoint && item.type === mediaType) {
+                            return true;
+                        }
+                    });
+
+                    matchMedia.addListener(function () {
+                        initSpollers(spollersArray, matchMedia);
+                    });
+                    initSpollers(spollersArray, matchMedia);
+                });
+            }
+
+
+            function initSpollers(spollersArray, matchMedia = false) {
+                spollersArray.forEach((spollersBlock) => {
+                    spollersBlock = matchMedia ? spollersBlock.item : spollersBlock;
+                    if (matchMedia.matches || !matchMedia) {
+                        spollersBlock.classList.add("_init");
+                        initSpollerBody(spollersBlock);
+                        spollersBlock.addEventListener("click", setSpollerAction);
+                    } else {
+                        spollersBlock.classList.remove("_init");
+                        initSpollerBody(spollersBlock, false);
+                        spollersBlock.removeEventListener("click", setSpollerAction);
+                    }
+                });
+            }
+
+            function initSpollerBody(spollersBlock, hideSpollerBody = true) {
+                const spollerTitles = spollersBlock.querySelectorAll("[data-spoller]");
+                if (spollerTitles.length > 0) {
+                    spollerTitles.forEach((spollerTitle) => {
+                        if (hideSpollerBody) {
+                            spollerTitle.removeAttribute("tabindex");
+                            if (!spollerTitle.classList.contains("_active")) {
+                                spollerTitle.nextElementSibling.hidden = true;
+                            }
+                        } else {
+                            spollerTitle.setAttribute("tabindex", "-1");
+                            spollerTitle.nextElementSibling.hidden = false;
+                        }
+                    });
+                }
+            }
+
+            function setSpollerAction(e) {
+                const el = e.target;
+                if (el.hasAttribute("data-spoller") || el.closest("[data-spoller]")) {
+                    const spollerTitle = el.hasAttribute("data-spoller")
+                        ? el
+                        : el.closest("[data-spoller]");
+                    const spollersBlock = spollerTitle.closest("[data-spollers]");
+                    const oneSpoller = spollersBlock.hasAttribute("data-one-spoller")
+                        ? true
+                        : false;
+                    if (!spollersBlock.querySelectorAll("._slide").length) {
+                        if (oneSpoller && !spollerTitle.classList.contains("_active")) {
+                            hideSpollersBody(spollersBlock);
+                        }
+                        spollerTitle.classList.toggle("_active");
+                        spollerTitle.nextElementSibling.slideToggle(300);
+                    }
+                    e.preventDefault();
+                }
+            }
+
+            function hideSpollersBody(spollersBlock) {
+                const spollerActiveTitle = spollersBlock.querySelector(
+                    "[data-spoller]._active"
+                );
+                if (spollerActiveTitle) {
+                    spollerActiveTitle.classList.remove("_active");
+                    spollerActiveTitle.nextElementSibling.slideUp(300);
+                }
+            }
+        }
+
+    }
+
     // Event handlers
 
 
@@ -392,6 +540,11 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelector('.icon-menu').classList.toggle('active');
         }
 
+        if (target.classList.contains('maps__btn')) {
+            e.preventDefault();
+            sendFilterResponce();
+        }
+
     });
 
 
@@ -407,7 +560,7 @@ document.addEventListener("DOMContentLoaded", () => {
             controls: []
         });
 
-        myMap.behaviors.disable('scrollZoom');
+        // myMap.behaviors.disable('scrollZoom');
 
         if (document.querySelectorAll('.maps__placemark')) {
             document.querySelectorAll('.maps__placemark').forEach(placeMark => {
@@ -418,7 +571,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 var mark = new ymaps.Placemark(coords, {}, {
                     iconLayout: 'default#image',
-                    iconImageHref: '/kildin/img/icons/location.svg',
+                    iconImageHref: '/img/icons/location.svg',
                     modalId: modalId
                 });
 
@@ -444,39 +597,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-    // document.addEventListener('input', (e) => {
 
-    //     const target = e.target;
+    async function sendFilterResponce() {
 
-    //     if (target === document || target.closest('.maps__filters')) {
-    //         sendFilterResponce();
-    //     }
+        if (!document.querySelector('.maps__filters')) return;
 
-    // });
-
-    // async function sendFilterResponce() {
-
-    //     if (!document.querySelector('.maps__filters')) return;
-
-    //     const URL = "https://monitoring.dev.ecofactor.pro/api/v1/requests/filter/";
-    //     let formData = new FormData(document.querySelector('.maps__filters'));
+        const URL = "https://monitoring.dev.ecofactor.pro/api/v1/requests/filter/";
+        let formData = new FormData(document.querySelector('.maps__filters'));
 
 
-    //     try {
-    //         let response = await fetch(URL, {
-    //             method: "POST",
-    //             body: formData
-    //         });
+        let objectJson = {};
+        formData.forEach(function (value, key) {
 
-    //         if (response.ok) {
-    //             // ВАШ КОД ОБНОВЛЕНИЯ КАРТЫ
-    //             console.log(response);
-    //         }
+            if (objectJson.hasOwnProperty(key)) {
+                objectJson[key] = Array.from(objectJson[key]);
+                objectJson[key].push(value);
+            } else {
+                objectJson[key] = value;
+            }
 
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // }
+        });
+        let json = JSON.stringify(objectJson);
+
+        try {
+            let response = await fetch(URL, {
+                method: "POST",
+                body: json
+            });
+
+            if (response.ok) {
+                // ВАШ КОД ОБНОВЛЕНИЯ КАРТЫ
+                console.log(response);
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
 
     // lock body 
@@ -510,9 +667,82 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-
-
-
-
 });
+
+HTMLElement.prototype.slideToggle = function (duration, callback) {
+    if (this.clientHeight === 0) {
+        _s(this, duration, callback, true);
+    } else {
+        _s(this, duration, callback);
+    }
+};
+
+HTMLElement.prototype.slideUp = function (duration, callback) {
+    _s(this, duration, callback);
+};
+
+HTMLElement.prototype.slideDown = function (duration, callback) {
+    _s(this, duration, callback, true);
+};
+
+function _s(el, duration, callback, isDown) {
+
+    if (typeof duration === 'undefined') duration = 400;
+    if (typeof isDown === 'undefined') isDown = false;
+
+    el.style.overflow = "hidden";
+    if (isDown) el.style.display = "block";
+
+    var elStyles = window.getComputedStyle(el);
+
+    var elHeight = parseFloat(elStyles.getPropertyValue('height'));
+    var elPaddingTop = parseFloat(elStyles.getPropertyValue('padding-top'));
+    var elPaddingBottom = parseFloat(elStyles.getPropertyValue('padding-bottom'));
+    var elMarginTop = parseFloat(elStyles.getPropertyValue('margin-top'));
+    var elMarginBottom = parseFloat(elStyles.getPropertyValue('margin-bottom'));
+
+    var stepHeight = elHeight / duration;
+    var stepPaddingTop = elPaddingTop / duration;
+    var stepPaddingBottom = elPaddingBottom / duration;
+    var stepMarginTop = elMarginTop / duration;
+    var stepMarginBottom = elMarginBottom / duration;
+
+    var start;
+
+    function step(timestamp) {
+
+        if (start === undefined) start = timestamp;
+
+        var elapsed = timestamp - start;
+
+        if (isDown) {
+            el.style.height = (stepHeight * elapsed) + "px";
+            el.style.paddingTop = (stepPaddingTop * elapsed) + "px";
+            el.style.paddingBottom = (stepPaddingBottom * elapsed) + "px";
+            el.style.marginTop = (stepMarginTop * elapsed) + "px";
+            el.style.marginBottom = (stepMarginBottom * elapsed) + "px";
+        } else {
+            el.style.height = elHeight - (stepHeight * elapsed) + "px";
+            el.style.paddingTop = elPaddingTop - (stepPaddingTop * elapsed) + "px";
+            el.style.paddingBottom = elPaddingBottom - (stepPaddingBottom * elapsed) + "px";
+            el.style.marginTop = elMarginTop - (stepMarginTop * elapsed) + "px";
+            el.style.marginBottom = elMarginBottom - (stepMarginBottom * elapsed) + "px";
+        }
+
+        if (elapsed >= duration) {
+            el.style.height = "";
+            el.style.paddingTop = "";
+            el.style.paddingBottom = "";
+            el.style.marginTop = "";
+            el.style.marginBottom = "";
+            el.style.overflow = "";
+            if (!isDown) el.style.display = "none";
+            if (typeof callback === 'function') callback();
+        } else {
+            window.requestAnimationFrame(step);
+        }
+    }
+
+    window.requestAnimationFrame(step);
+}
 
