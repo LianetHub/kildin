@@ -1,5 +1,10 @@
 "use strict";
 
+import { constants } from "./config.js";
+
+const { URL, iconImageHref } = constants;
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -109,11 +114,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function initUI() {
 
-        ymaps.ready(initMap);
+        sendFilterResponce();
+
+        initSpollers();
+        initDropdows();
         initSliders();
         initFancyBox();
-        initDropdows();
-        initSpollers();
     }
 
     function initFancyBox() {
@@ -210,6 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
             el.addEventListener('click', (e) => {
                 let li = e.target.closest('li');
                 if (!li) { return; }
+
                 let select = li.closest('.selectMultiple');
                 if (!select.classList.contains('clicked')) {
                     select.classList.add('clicked');
@@ -270,12 +277,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.querySelectorAll('.selectMultiple > div').forEach(el => {
             el.addEventListener('click', (e) => {
+
                 let a = e.target.closest('a');
                 let select = e.target.closest('.selectMultiple');
                 if (!a) { return; }
 
                 a.className = '';
                 a.classList.add('remove');
+                console.log('work 2');
+
                 select.classList.add('open');
                 let selectEl = select.querySelector('select');
                 let opt = selectEl.querySelector('option[value="' + a.dataset.value + '"]');
@@ -330,55 +340,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.querySelectorAll('.selectMultiple > div .arrow, .selectMultiple > div span').forEach((el) => {
             el.addEventListener('click', (e) => {
+                document.querySelectorAll('.selectMultiple.open').forEach(select => {
+                    if (select !== e.target.closest('.selectMultiple')) {
+                        select.classList.remove('open');
+                    }
+                });
                 el.closest('.selectMultiple').classList.toggle('open');
             });
         });
-        // document.querySelectorAll(".dropdown").forEach(function (dropdownWrapper) {
-        //     const dropdownBtn = dropdownWrapper.querySelector(".dropdown__button");
-        //     const dropdownList = dropdownWrapper.querySelector(".dropdown__list");
-        //     const dropdownItems = dropdownList.querySelectorAll(".dropdown__list-item");
-        //     // const dropdownInput = dropdownWrapper.querySelector(".dropdown__input");
-
-        //     dropdownBtn.addEventListener("click", function () {
-        //         dropdownList.classList.toggle("visible");
-        //         this.classList.toggle("active");
-        //     });
-
-        //     dropdownItems.forEach(function (listItem) {
-        //         listItem.addEventListener("click", function (e) {
-
-        //             // if (e.target.querySelector('.dropdown__checkbox') || e.target.closest(".dropdown__checkbox")) {
-        //             //     e.stopPropagation();
-        //             //     return;
-        //             // };
-
-        //             dropdownItems.forEach(function (el) {
-        //                 el.classList.remove("active");
-        //             });
-        //             e.target.classList.add("active");
-        //             dropdownBtn.innerHTML = this.innerHTML;
-        //             dropdownBtn.classList.add("selected");
-        //             dropdownBtn.classList.remove("active");
-        //             // dropdownInput.value = this.dataset.value;
-        //             // dropdownList.classList.remove("visible");
-
-        //             // let event = new Event('input');
-        //             // document.dispatchEvent(event);
-        //         });
-        //     });
-
-
-
-        //     document.addEventListener("keydown", function (e) {
-        //         if (e.key === "Tab" || e.key === "Escape") {
-        //             dropdownBtn.classList.remove("active");
-        //             dropdownList.classList.remove("visible");
-        //         }
-        //     });
-        // });
 
     }
-
 
     function initSpollers() {
 
@@ -560,7 +531,6 @@ document.addEventListener("DOMContentLoaded", () => {
             controls: []
         });
 
-        // myMap.behaviors.disable('scrollZoom');
 
         if (document.querySelectorAll('.maps__placemark')) {
             document.querySelectorAll('.maps__placemark').forEach(placeMark => {
@@ -571,7 +541,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 var mark = new ymaps.Placemark(coords, {}, {
                     iconLayout: 'default#image',
-                    iconImageHref: '/img/icons/location.svg',
+                    iconImageHref: iconImageHref,
                     modalId: modalId
                 });
 
@@ -602,8 +572,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!document.querySelector('.maps__filters')) return;
 
-        const URL = "https://monitoring.dev.ecofactor.pro/api/v1/requests/filter/";
         let formData = new FormData(document.querySelector('.maps__filters'));
+
+
 
 
         let objectJson = {};
@@ -625,9 +596,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: json
             });
 
+            // let response = await fetch(URL);
+
             if (response.ok) {
-                // ВАШ КОД ОБНОВЛЕНИЯ КАРТЫ
-                console.log(response);
+
+                let result = await response.json();
+
+                renderContent(result);
+                ymaps.ready(initMap);
             }
 
         } catch (err) {
@@ -635,6 +611,31 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+
+    function renderContent(json) {
+        let placemarks = document.querySelector('.maps__placemarks');
+        let modals = document.querySelector('.maps__modals');
+
+        placemarks.innerHTML = "";
+        modals.innerHTML = "";
+
+        let { requests } = json;
+        requests.forEach(request => {
+            let { id, coordinates, req_popup } = request;
+
+            modals.innerHTML += req_popup;
+
+            let placemark = document.createElement('div');
+            placemark.classList.add('maps__placemark');
+            placemark.setAttribute('data-coords', coordinates);
+            placemark.setAttribute('data-modal', `#modal-${id}`);
+
+            placemarks.appendChild(placemark);
+
+
+        })
+
+    }
 
     // lock body 
 
