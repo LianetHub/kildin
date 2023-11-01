@@ -101,17 +101,26 @@
                   <input type="text" name="object" class="input" placeholder="Поиск по названию">
                 </div>
                 <div class="maps__dropdown dropdown">
-                  <select name="category" id="id_category" data-placeholder="Категория" multiple class="dropdown__list">
-                    <option value="1">Биоразнообразие</option>
-                    <option value="2">Мусор</option>
+                  <select name="category" class="dropdown__list" data-placeholder="Категория" id="id_category" multiple="">
+                    <option value="3">Другое</option>
+                    <option value="6">Животные</option>
+                    <option value="1">Загрязнения</option>
+                    <option value="7">Проект</option>
+                    <option value="8">Растения</option>
                   </select>
                 </div>
                 <div class="maps__dropdown dropdown">
-                  <select name="subcategory" id="id_subcategory" data-placeholder="Подкатегория" multiple class="dropdown__list">
-                    <option value="1">Биомусор</option>
-                    <option value="2">Животное</option>
-                    <option value="3">Растение</option>
-                    <option value="4">Техногенный мусор</option>
+                  <select name="subcategory" class="dropdown__list" data-placeholder="Подкатегория" id="id_subcategory" multiple="">
+                    <option value="4" data-category="3">Вид/достопримечательность</option>
+                    <option value="14" data-category="1">Другие загрязнения</option>
+                    <option value="8" data-category="6">Млекопитающие</option>
+                    <option value="11" data-category="8">Натюрморт</option>
+                    <option value="15" data-category="1">Пластик</option>
+                    <option value="10" data-category="7">Пластик_2023</option>
+                    <option value="9" data-category="6">Птицы</option>
+                    <option value="12" data-category="8">Растительность тундры</option>
+                    <option value="13" data-category="8">Редкое растение</option>
+                    <option value="7" data-category="6">Следы животных</option>
                   </select>
                 </div>
                 <div class="maps__dropdown dropdown">
@@ -179,6 +188,7 @@
 <script src="js/libs/fancybox.min.js"></script>
 <script src="https://lidrekon.ru/slep/js/jquery.js"></script>
 <script src="https://lidrekon.ru/slep/js/uhpv-full.min.js"></script>
+<script src="js/config.js"></script>
 <script src="js/app.min.js"></script>
 </body>
 
