@@ -36,13 +36,13 @@
                 <span>Об острове</span>
             </a>
         </li>
-        <li class="navigation__item  active">
+        <li class="navigation__item  ">
             <a href="/maps.html" class="navigation__item-link nav-link">
                 <img src="img/icons/map.svg" alt="icon">
                 <span>Карта объектов</span>
             </a>
         </li>
-        <li class="navigation__item  ">
+        <li class="navigation__item  active">
             <a href="/news.html" class="navigation__item-link nav-link">
                 <img src="img/icons/news.svg" alt="icon">
                 <span>Новости</span>
@@ -82,69 +82,113 @@
         </button>
     </div>
 </header>
-    <div class="main" data-barba="container" data-barba-namespace="maps">
+    <div class="main" data-barba="container" data-barba-namespace="news">
       <main class="page">
-        <section class="maps">
-          <div class="maps__container">
+        <section class="news">
+          <div class="news__container">
             <nav aria-label="Хлебные крошки" class="breadcrumbs">
               <ul class="breadcrumbs__items">
                 <li class="breadcrumbs__item">
                   <a href="/" class="breadcrumbs__link">Главная</a>
                 </li>
                 <li class="breadcrumbs__item">
-                  <span class="breadcrumbs__link">Карта объектов</span>
+                  <span class="breadcrumbs__link">Новости</span>
                 </li>
               </ul>
             </nav>
-            <h1 class="maps__title title">Карта объектов</h1>
-            <div class="maps__body">
-              <h2>
-                Поиск и фильтрация
-              </h2>
-              <form action="#" class="maps__filters">
-                <div class="maps__search">
-                  <img src="img/icons/search.svg" alt="icon">
-                  <input type="text" name="object" class="input" placeholder="Поиск по названию">
+            <h1 class="news__title title">Новости</h1>
+            <ul class="news__list">
+              <li class="news__item">
+                <div class="news__item-body">
+                  <a href="#news-1" data-fancybox class="news__item-title">
+                    МАЯК КИЛЬДИНСКИЙ-СЕВЕРНЫЙ
+                  </a>
+                  <time datetime="2022-09-30" class="news__item-time">
+                    30 сентября
+                  </time>
+                  <p class="news__item-text">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat, numquam voluptas, debitis nemo doloremque animi ullam nam dolorem at beatae perferendis veniam odit facere mollitia quam delectus vel officiis inventore.
+                  </p>
+                  <a href="#news-1" data-fancybox class="news__item-link">
+                    Подробнее
+                  </a>
                 </div>
-                <div class="maps__dropdown dropdown">
-                  <select name="category" class="dropdown__list" data-placeholder="Категория" id="id_category" multiple="">
-                    <option value="3">Другое</option>
-                    <option value="6">Животные</option>
-                    <option value="1">Загрязнения</option>
-                    <option value="7">Проект</option>
-                    <option value="8">Растения</option>
-                  </select>
+                <a href="#news-1" data-fancybox class="news__item-image">
+                  <img src="img/gallery/01.jpg" class="cover-image" alt="news picture">
+                </a>
+              </li>
+              <li class="news__item">
+                <div class="news__item-body">
+                  <a href="#news-1" data-fancybox class="news__item-title">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit distinctio asperiores commodi reiciendis temporibus, dolorum, nam sit odit iure error cumque, quod nulla ea aspernatur fugit? Excepturi dolores distinctio dolorum.
+                  </a>
+                  <time datetime="2022-09-30" class="news__item-time">
+                    30 сентября
+                  </time>
+                  <p class="news__item-text">
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Hic distinctio eaque quaerat praesentium, similique vitae consectetur sed doloribus laborum quod repellat. Provident ab exercitationem cum aspernatur, hic facere nobis deleniti, saepe repudiandae fugiat fugit error. Excepturi voluptates, est labore, voluptatem et at voluptate esse ut debitis eligendi consequuntur voluptas. Accusamus accusantium laudantium enim libero, sed provident aliquid ipsam tempora ab ex repudiandae quae minima voluptates fuga sapiente magnam, obcaecati aliquam voluptate distinctio itaque? Quos tenetur mollitia blanditiis facilis nisi officia similique ex eos qui assumenda accusamus possimus eligendi explicabo ad, adipisci quam consectetur nostrum natus voluptas accusantium repellendus? Commodi, nemo.</p>
+                  <a href="#news-1" data-fancybox class="news__item-link">
+                    Подробнее
+                  </a>
                 </div>
-                <div class="maps__dropdown dropdown">
-                  <select name="subcategory" class="dropdown__list" data-placeholder="Подкатегория" id="id_subcategory" multiple="">
-                    <option value="4" data-category="3">Вид/достопримечательность</option>
-                    <option value="14" data-category="1">Другие загрязнения</option>
-                    <option value="8" data-category="6">Млекопитающие</option>
-                    <option value="11" data-category="8">Натюрморт</option>
-                    <option value="15" data-category="1">Пластик</option>
-                    <option value="10" data-category="7">Пластик_2023</option>
-                    <option value="9" data-category="6">Птицы</option>
-                    <option value="12" data-category="8">Растительность тундры</option>
-                    <option value="13" data-category="8">Редкое растение</option>
-                    <option value="7" data-category="6">Следы животных</option>
-                  </select>
+                <a href="#news-1" data-fancybox class="news__item-image">
+                  <img src="img/gallery/04.jpg" class="cover-image" alt="news picture">
+                </a>
+              </li>
+              <li class="news__item">
+                <div class="news__item-body">
+                  <a href="#news-1" data-fancybox class="news__item-title">
+                    МАЯК КИЛЬДИНСКИЙ-СЕВЕРНЫЙ
+                  </a>
+                  <time datetime="2022-09-30" class="news__item-time">
+                    30 сентября
+                  </time>
+                  <p class="news__item-text">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat, numquam voluptas, debitis nemo doloremque animi ullam nam dolorem at beatae perferendis veniam odit facere mollitia quam delectus vel officiis inventore.
+                  </p>
+                  <a href="#news-1" data-fancybox class="news__item-link">
+                    Подробнее
+                  </a>
                 </div>
-                <div class="maps__dropdown dropdown">
-                  <select name="status" id="id_status" data-placeholder="Статус" multiple class="dropdown__list">
-                    <option value="1">Новое</option>
-                    <option value="2">Подтверждено</option>
-                    <option value="3">Требует решения</option>
-                    <option value="4">В работе</option>
-                    <option value="5">На проверке</option>
-                    <option value="6">Решено</option>
-                  </select>
+                <a href="#news-1" data-fancybox class="news__item-image">
+                  <img src="img/gallery/03.jpg" class="cover-image" alt="news picture">
+                </a>
+              </li>
+            </ul>
+            <div id="news-1" class="popup popup-sm">
+              <div class="popup__content">
+                <div class="popup__header">
+                  <div class="popup__title title">Маяк Кильдинский-Северный</div>
+                  <button data-fancybox-close class="popup__close">
+                    <img src="img/icons/close.svg" alt="icon close">
+                  </button>
                 </div>
-                <button type="submit" class="maps__btn btn btn-primary">Применить</button>
-              </form>
-              <div class="maps__content">
-                <div id="map"></div>
-                <div class="maps__placemarks"></div>
-                <div class="maps__modals"></div>
+                <div class="popup__slider swiper">
+                  <div class="swiper-wrapper">
+                    <div class="popup__slide swiper-slide">
+                      <img src="img/lighthouse.jpg" loading="lazy" class="cover-image" alt="Маяк">
+                      <div class="swiper-lazy-preloader"></div>
+                    </div>
+                    <div class="popup__slide swiper-slide">
+                      <img src="img/lighthouse.jpg" loading="lazy" class="cover-image" alt="Маяк">
+                      <div class="swiper-lazy-preloader"></div>
+                    </div>
+                    <div class="popup__slide swiper-slide">
+                      <img src="img/lighthouse.jpg" loading="lazy" class="cover-image" alt="Маяк">
+                      <div class="swiper-lazy-preloader"></div>
+                    </div>
+                  </div>
+                  <div class="popup__prev swiper-button-prev"></div>
+                  <div class="popup__next swiper-button-next"></div>
+                </div>
+                <div class="popup__desc">
+                  <p>
+                    В северной части острова Кильдин расположен маяк Кильдинский-Северный. Он является одним из самых больших по дальности видимости на Мурманском берегу (22 мили). Это хороший ориентир при подходе к Кольскому заливу с севера и северо-востока. Маяк Кильдинский-Северный был построен в 1953 году и остаётся неизменным по сей день. В настоящее время маяк светит белым частопроблесковым огнем. Красота Кильдинского маяка не оставила без внимания создателей серии почтовых марок «Маяки России». Данная маркая является коллекционной редкостью.
+                  </p>
+                  <p>
+                    В северной части острова Кильдин расположен маяк Кильдинский-Северный. Он является одним из самых больших по дальности видимости на Мурманском берегу (22 мили). Это хороший ориентир при подходе к Кольскому заливу с севера и северо-востока. Маяк Кильдинский-Северный был построен в 1953 году и остаётся неизменным по сей день. В настоящее время маяк светит белым частопроблесковым огнем. Красота Кильдинского маяка не оставила без внимания создателей серии почтовых марок «Маяки России». Данная маркая является коллекционной редкостью.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
